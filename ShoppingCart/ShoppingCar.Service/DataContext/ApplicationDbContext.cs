@@ -10,7 +10,7 @@ namespace ShoppingCar.Service.DataContext
 
         }
 
-        public DbSet<Product> Products { get; set; }
+        public DbSet<Category> Products { get; set; }
 
         public DbSet<Category> Categories { get; set; }
     }

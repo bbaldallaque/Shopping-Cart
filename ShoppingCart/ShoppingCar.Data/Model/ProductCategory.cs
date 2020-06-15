@@ -8,7 +8,7 @@
 
         public int CategoryId { get; set; }
 
-        public Product Product { get; set; }
+        public Category Product { get; set; }
 
         public Category Category { get; set; }
     }

@@ -2,7 +2,7 @@
 
 namespace ShoppingCar.Data.Model
 {
-    public class Product
+    public class Category
     {
         public int Id { get; set; }
 

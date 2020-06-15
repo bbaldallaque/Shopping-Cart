@@ -1,9 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
-using ShoppingCar.Data.Model;
+﻿using ShoppingCar.Data.Model;
 using ShoppingCar.Service.DataContext;
 using ShoppingCar.Service.Infraestructure;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ShoppingCar.Service.Repository
 {
@@ -15,9 +15,11 @@ namespace ShoppingCar.Service.Repository
         {
             _context = context;
         }
-        public void  DeleteCategory (Category category)
+        public async Task DeleteCategoryAsyn(int? id)
         {
+            var category = await _context.Categories.FindAsync(id);
             _context.Categories.Remove(category);
+            await _context.SaveChangesAsync();
         }
 
         public IEnumerable<Category> GetAllCategories()
@@ -25,24 +27,22 @@ namespace ShoppingCar.Service.Repository
             return _context.Categories.ToList();
         }
 
-        public Category GetCategoryById(int Id)
+        public async Task<Category> GetCategoryByIdAsync(int? id)
         {
-            return _context.Categories.Where(x => x.Id==Id).FirstOrDefault();
+            return await _context.Categories.FindAsync(id);
+        }
+    
+        public async Task InsertCategoryAsync(Category category)
+        {
+            _context.Products.Update(category);
+            await _context.SaveChangesAsync();
         }
 
-        public void InsertCategory(Category category)
-        {
-            _context.Categories.Add(category);
-        }
 
-        public void Save()
+        public async Task UpdateCategoryAsync(Category category)
         {
-            _context.SaveChanges();
-        }
-
-        public void UpdateCategory(Category category)
-        {
-            _context.Categories.Update(category);
+            _context.Categories.Update(category).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            await _context.SaveChangesAsync();
         }
     }
 }

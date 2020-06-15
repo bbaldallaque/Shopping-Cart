@@ -1,40 +1,46 @@
 ﻿using ShoppingCar.Data.Model;
+using ShoppingCar.Service.DataContext;
 using ShoppingCar.Service.Infraestructure;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ShoppingCar.Service.Repository
 {
     public class ProductRepository : IProduct
     {
-        public Task DeletePruduct(Product product)
+        private readonly ApplicationDbContext _context;
+
+        public ProductRepository(ApplicationDbContext context)
         {
-            throw new System.NotImplementedException();
+            _context = context;
+        }
+        public async Task DeleteProductAsync(Category product)
+        {
+            _context.Products.Remove(product);
+            await _context.SaveChangesAsync();
         }
 
-        public IEnumerable<Product> GetAllProducts()
+        public IEnumerable<Category> GetAllProducts()
         {
-            throw new System.NotImplementedException();
+            return _context.Products.ToList();
         }
 
-        public Task<Product> GetProductById(int id)
+        public async Task<Category> GetProductByIdAsync(int id)
         {
-            throw new System.NotImplementedException();
+            return await _context.Products.FindAsync(id);
         }
 
-        public Task<Product> InsertProduct(Product product)
+        public  async Task InsertProduct(Category product)
         {
-            throw new System.NotImplementedException();
+              _context.Products.Update(product);
+            await _context.SaveChangesAsync();
         }
-
-        public Task Save()
+     
+        public async Task UpdateProductAsync(Category product)
         {
-            throw new System.NotImplementedException();
-        }
-
-        public Task<Product> UpdateProduct(Product product)
-        {
-            throw new System.NotImplementedException();
+             _context.Products.Update(product).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            await _context.SaveChangesAsync();
         }
     }
 }

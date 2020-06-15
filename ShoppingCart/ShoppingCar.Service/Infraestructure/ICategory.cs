@@ -1,15 +1,15 @@
 ﻿using ShoppingCar.Data.Model;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ShoppingCar.Service.Infraestructure
 {
     public interface ICategory
     {
         IEnumerable<Category> GetAllCategories();
-        Category GetCategoryById(int Id);
-        void InsertCategory(Category category);
-        void UpdateCategory(Category category);
-        void DeleteCategory(Category category);
-        void Save();
+        Task<Category> GetCategoryByIdAsync(int? id);
+        Task InsertCategoryAsync (Category category);
+        Task UpdateCategoryAsync(Category category);
+        Task DeleteCategoryAsyn(int? id);
     }
 }
