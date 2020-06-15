@@ -1,43 +1,48 @@
-﻿using ShoppingCar.Data.Model;
+﻿using Microsoft.EntityFrameworkCore;
+using ShoppingCar.Data.Model;
+using ShoppingCar.Service.DataContext;
 using ShoppingCar.Service.Infraestructure;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ShoppingCar.Service.Repository
 {
     public class CategoryRepository : ICategory
     {
-        public CategoryRepository(DataContext context)
-        {
+        private readonly ApplicationDbContext _context;
 
-        }
-        public void DeleteCategory(Category category)
+        public CategoryRepository(ApplicationDbContext context)
         {
-            throw new System.NotImplementedException();
+            _context = context;
+        }
+        public void  DeleteCategory (Category category)
+        {
+            _context.Categories.Remove(category);
         }
 
         public IEnumerable<Category> GetAllCategories()
         {
-            throw new System.NotImplementedException();
+            return _context.Categories.ToList();
         }
 
         public Category GetCategoryById(int Id)
         {
-            throw new System.NotImplementedException();
+            return _context.Categories.Where(x => x.Id==Id).FirstOrDefault();
         }
 
         public void InsertCategory(Category category)
         {
-            throw new System.NotImplementedException();
+            _context.Categories.Add(category);
         }
 
         public void Save()
         {
-            throw new System.NotImplementedException();
+            _context.SaveChanges();
         }
 
         public void UpdateCategory(Category category)
         {
-            throw new System.NotImplementedException();
+            _context.Categories.Update(category);
         }
     }
 }
